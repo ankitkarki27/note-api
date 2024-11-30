@@ -1,0 +1,26 @@
+name: Auto-Generate README
+
+on:
+  push:
+    branches:
+      - main  # Make sure this matches your main branch name (e.g., `main` or `master`)
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Generate README
+      run: |
+        echo "# $(basename $GITHUB_REPOSITORY)" > README.md
+        echo "This README was automatically generated on $(date)." >> README.md
+        echo "Visit the repository [here](https://github.com/$GITHUB_REPOSITORY)." >> README.md
+
+    - name: Commit changes
+      uses: EndBug/add-and-commit@v9
+      with:
+        author_name: 'GitHub Actions'
+        author_email: 'github-actions@github.com'
+        message: 'Auto-updated README'
